@@ -1,3 +1,4 @@
+var playerInstance = jwplayer("jwplayerDiv");
 function switchTo1() {
     playerInstance.setup({
         file: "https://cempedak-live-cdn.mncnow.id/live/eds/MNCTV-HD/sa_dash_vmx/MNCTV-HD.mpd",
