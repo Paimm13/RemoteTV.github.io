@@ -182,8 +182,8 @@ function switchTo2() {
     player.on("ready", () => {
         requestFullscreen(document.getElementById("plyrPlayer"));
     });
-  }
 
+}
 
 function switchToYT(videoID) {
     console.log("Switching to YouTube video ID:", videoID);
