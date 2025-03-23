@@ -696,7 +696,27 @@ function switchTo23() {
 			});
 	} else {
 		console.error("Shaka Player is not supported on this browser.");
+
 	}
+}
+//GTV
+function switchTo24() {
+	var playerInstance = jwplayer(); // Ensure you're referencing the correct player instance
+	playerInstance.setup({
+		file: "https://live/eds/RTV/sa_dash_vmx/RTV.mpd",
+		image: "images/video.jpg",
+		type: "dash",
+		drm: {
+			widevine: {
+				url: "https://mrpw.ptmnc01.verspective.net/?deviceId=MDA5MmI1NjctOWMyMS0zNDYyLTk0NDAtODM5NGQ1ZjdlZWRi",
+			},
+		},
+		autostart: true,
+	});
+
+	playerInstance.on("play", function () {
+		playerInstance.setFullscreen(true);
+	});
 }
 
 function switchToYT(videoID) {
