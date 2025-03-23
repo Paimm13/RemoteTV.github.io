@@ -1,4 +1,3 @@
-// discord-bot.js
 const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const axios = require('axios');
 const express = require('express');
@@ -7,9 +6,9 @@ const os = require('os');
 
 // Konfigurasi yang dapat diubah
 const CONFIG = {
-  PORT: process.env.PORT || 3001, // Menggunakan port 3001 sebagai default
-  DISCORD_TOKEN: 'TOKEN', // Ganti dengan token Discord Anda
-  WEBSITE_URL: 'https://nindtz.github.io',
+  PORT: process.env.PORT || 3001,
+  DISCORD_TOKEN: 'DISCORD_BOT_TOKEN', // Ganti dengan token Discord Anda
+  WEBSITE_URL: 'https://paimm13.github.io/RemoteTV.github.io/',
   PREFIX: '!tv'
 };
 
@@ -30,81 +29,174 @@ const client = new Client({
 // Channel list dengan detail dan gambar
 const TV_CHANNELS = [
   {
-    name: 'RCTI',
-    description: 'Rajawali Citra Televisi Indonesia',
-    image: 'https://i.imgur.com/BW02rIs.jpg',
+    name: 'rcti',
+    description: 'media nusantara citra TV',
+    apiId: 'rcti', // ID untuk API Tivie.id
     switchCommand: 'switchTo1()',
     isLive: true
   },
   {
-    name: 'TRANSTV',
-    description: 'Trans TV',
-    image: 'https://i.imgur.com/3t7r5E7.jpg',
-    switchCommand: 'switchTo1()',
-    isLive: true
-  },
-  {
-    name: 'ANTV',
-    description: 'Andalas Televisi',
-    image: 'https://i.imgur.com/SUc7sih.jpg',
+    name: 'mnctv',
+    description: 'mnctv',
+    apiId: 'mntcv', // ID untuk API Tivie.id
     switchCommand: 'switchTo2()',
     isLive: true
   },
   {
-    name: 'KOMPASTV',
-    description: 'Kompas TV',
-    image: 'https://i.imgur.com/lzmoYCG.jpg',
+    name: 'gtv',
+    description: 'gtv',
+    apiId: 'gtv', // ID untuk API Tivie.id
     switchCommand: 'switchTo3()',
     isLive: true
   },
   {
-    name: 'GTV',
-    description: 'Global TV',
-    image: 'https://i.imgur.com/hZ1YU3K.jpg',
+    name: 'transtv',
+    description: 'transtv',
+    apiId: 'transtv', // ID untuk API Tivie.id
     switchCommand: 'switchTo4()',
     isLive: true
   },
   {
-    name: 'CNN',
-    description: 'CNN Indonesia',
-    image: 'https://i.imgur.com/UvGfSE0.jpg',
+    name: 'trans7',
+    description: 'trans7',
+    apiId: 'trans7', // ID untuk API Tivie.id
     switchCommand: 'switchTo5()',
     isLive: true
   },
   {
-    name: 'MNCTV',
-    description: 'MNCTV',
-    image: 'https://www.mncvision.id/userfiles/image/channel/channel_82.png',
+    name: 'mdtv',
+    description: 'mdtv',
+    apiId: 'mdtv', // ID untuk API Tivie.id
     switchCommand: 'switchTo6()',
     isLive: true
   },
   {
-    name: 'PRIME',
-    description: 'Amazon Prime',
-    image: 'https://i.imgur.com/xdXZbW8.jpg',
-    switchCommand: 'switchToExtra1()',
+    name: 'sctv',
+    description: 'sctv',
+    apiId: 'sctv', // ID untuk API Tivie.id
+    switchCommand: 'switchTo7()',
     isLive: true
   },
   {
-    name: 'LIVE',
-    description: 'Live Streaming',
-    image: 'https://i.imgur.com/EIKDkEm.jpg',
-    switchCommand: 'switchToExtra2()',
+    name: 'mojitv',
+    description: 'mojitv',
+    apiId: 'moji', // ID untuk API Tivie.id
+    switchCommand: 'switchTo8()',
     isLive: true
-  }
+  },
+  {
+    name: 'indosiar',
+    description: 'indosiar',
+    apiId: 'indosiar', // ID untuk API Tivie.id
+    switchCommand: 'switchTo9()',
+    isLive: true
+  },
+  {
+    name: 'mentari',
+    description: 'mentari',
+    apiId: 'mentari', // ID untuk API Tivie.id
+    switchCommand: 'switchTo10()',
+    isLive: true
+  },
+  {
+    name: 'cnn',
+    description: 'cnn',
+    apiId: 'cnn', // ID untuk API Tivie.id
+    switchCommand: 'switchTo11()',
+    isLive: true
+  },
+  {
+    name: 'animax',
+    description: 'animax',
+    apiId: 'animax', // ID untuk API Tivie.id
+    switchCommand: 'switchTo12()',
+    isLive: true
+  },
+  {
+    name: 'cartoon',
+    description: 'cartoon',
+    apiId: 'cartoon', // ID untuk API Tivie.id
+    switchCommand: 'switchTo13()',
+    isLive: true
+  },
+  {
+    name: 'tvone',
+    description: 'tvone',
+    apiId: 'tvone', // ID untuk API Tivie.id
+    switchCommand: 'switchTo14()',
+    isLive: true
+  },
+  {
+    name: 'Hbo asia',
+    description: 'habo asia',
+    apiId: 'hboasia', // ID untuk API Tivie.id
+    switchCommand: 'switchTo15()',
+    isLive: true
+  },{
+    name: 'hbo hits',
+    description: 'hbo hits',
+    apiId: 'hbo hits', // ID untuk API Tivie.id
+    switchCommand: 'switchTo16()',
+    isLive: true
+  },
+  {
+    name: 'hbo family',
+    description: 'habo family',
+    apiId: 'hbo family', // ID untuk API Tivie.id
+    switchCommand: 'switchTo17()',
+    isLive: true
+  },
+  {
+    name: 'cinemax',
+    description: 'cinemax',
+    apiId: 'cinemax', // ID untuk API Tivie.id
+    switchCommand: 'switchTo18()',
+    isLive: true
+  },
+  {
+    name: 'aniplus',
+    description: 'aniplus',
+    apiId: 'aniplus', // ID untuk API Tivie.id
+    switchCommand: 'switchTo19()',
+    isLive: true
+  },
+  {
+    name: 'bein 1',
+    description: 'bein 1',
+    apiId: 'bein1', // ID untuk API Tivie.id
+    switchCommand: 'switchTo20()',
+    isLive: true
+  },
+  {
+    name: 'bein 2',
+    description: 'bein 2',
+    apiId: 'bein 2', // ID untuk API Tivie.id
+    switchCommand: 'switchTo21()',
+    isLive: true
+  },
+  {
+    name: 'bein 3',
+    description: 'bein 3',
+    apiId: 'bein 3', // ID untuk API Tivie.id
+    switchCommand: 'switchTo22()',
+    isLive: true
+  },
+  {
+    name: 'tvn movies',
+    description: '',
+    apiId: 'tvnmovies', // ID untuk API Tivie.id
+    switchCommand: 'switchTo23()',
+    isLive: true
+  },
+  {
+    name: 'rtv',
+    description: 'raja wali tv',
+    apiId: 'rtv', // ID untuk API Tivie.id
+    switchCommand: 'switchTo24()',
+    isLive: true
+  },
+  // Tambahkan channel lainnya
 ];
-
-// Program acara saat ini (contoh data)
-const CURRENT_PROGRAMS = {
-  'RCTI': 'Sinetron Ikatan Cinta',
-  'TRANSTV': 'CNN Indonesia Tonight',
-  'ANTV': 'Kumpulan Emak-Emak Gaul',
-  'KOMPASTV': 'Berita Kompas Siang',
-  'GTV': 'Indonesian Idol 2025',
-  'CNN': 'CNN Update',
-  'PRIME': 'The Boys Season 5',
-  'LIVE': 'Live Streaming Event'
-};
 
 // Puppeteer Variables
 let browser;
@@ -142,6 +234,7 @@ async function startBrowser(url) {
         '--autoplay-policy=no-user-gesture-required',
         '--disable-blink-features=AutomationControlled',
         '--kiosk'
+
       ],
       defaultViewport: null
     });
@@ -165,10 +258,51 @@ async function startBrowser(url) {
   }
 }
 
+// Function untuk mengambil data program TV dari API Tivie.id
+async function getCurrentProgram(channelId) {
+  try {
+    const response = await axios.get(`https://tivie.id/api/channel?id=${channelId}`);
+    const data = response.data;
+
+    if (data && data.play) {
+      return {
+        title: data.play.title,
+        description: data.play.desc,
+        image: data.play.image,
+        isLive: data.play.live === 1,
+        nextProgram: data.next[0]?.title || 'Tidak ada info program berikutnya'
+      };
+    } else {
+      return {
+        title: 'Tidak ada info program',
+        description: 'Tidak ada deskripsi',
+        image: 'https://via.placeholder.com/400x200.png?text=No+Image+Available',
+        isLive: false,
+        nextProgram: 'Tidak ada info program berikutnya'
+      };
+    }
+  } catch (error) {
+    console.error(`Error fetching program for ${channelId}:`, error.message);
+    return {
+      title: 'Error mengambil data',
+      description: 'Terjadi kesalahan saat mengambil data program.',
+      image: 'https://via.placeholder.com/400x200.png?text=Error+Loading+Image',
+      isLive: false,
+      nextProgram: 'Tidak ada info program berikutnya'
+    };
+  }
+}
+
 // Function untuk mendapatkan info jadwal acara saat ini
-const getCurrentPrograms = () => {
-  // Di implementasi sebenarnya, Anda mungkin ingin mengambil data ini dari API
-  return CURRENT_PROGRAMS;
+const getCurrentPrograms = async () => {
+  const programs = {};
+  
+  for (const channel of TV_CHANNELS) {
+    const program = await getCurrentProgram(channel.apiId);
+    programs[channel.name] = program;
+  }
+  
+  return programs;
 };
 
 // Function untuk mendapatkan channel berdasarkan nama
@@ -191,6 +325,30 @@ async function executeInBrowser(command) {
   } catch (error) {
     console.error(`Error executing command: ${error.message}`);
     return false;
+  }
+}
+
+// Function to handle browser start/restart
+async function handleBrowserStart(message) {
+  const statusMsg = await message.channel.send('⏳ Memulai browser TV...');
+  
+  // Close existing browser if it's open
+  if (browser) {
+    try {
+      await browser.close();
+      browserStarted = false;
+    } catch (error) {
+      console.error('Error closing browser:', error);
+    }
+  }
+  
+  // Start browser
+  const success = await startBrowser(CONFIG.WEBSITE_URL);
+  
+  if (success) {
+    await statusMsg.edit('✅ Browser TV berhasil dimulai! Anda dapat menggunakan bot sekarang.');
+  } else {
+    await statusMsg.edit('❌ Gagal memulai browser TV. Cek log server untuk detail.');
   }
 }
 
@@ -255,33 +413,9 @@ client.on('messageCreate', async (message) => {
   }
 });
 
-// Handle browser start/restart
-async function handleBrowserStart(message) {
-  const statusMsg = await message.channel.send('⏳ Memulai browser TV...');
-  
-  // Close existing browser if it's open
-  if (browser) {
-    try {
-      await browser.close();
-      browserStarted = false;
-    } catch (error) {
-      console.error('Error closing browser:', error);
-    }
-  }
-  
-  // Start browser
-  const success = await startBrowser(CONFIG.WEBSITE_URL);
-  
-  if (success) {
-    await statusMsg.edit('✅ Browser TV berhasil dimulai! Anda dapat menggunakan bot sekarang.');
-  } else {
-    await statusMsg.edit('❌ Gagal memulai browser TV. Cek log server untuk detail.');
-  }
-}
-
 // Function to show TV guide
 async function showTVGuide(message) {
-  const currentPrograms = getCurrentPrograms();
+  const currentPrograms = await getCurrentPrograms();
   
   const embed = new EmbedBuilder()
     .setTitle('📺 JADWAL TV INDONESIA')
@@ -290,12 +424,12 @@ async function showTVGuide(message) {
     .setTimestamp();
   
   TV_CHANNELS.forEach(channel => {
-    const programInfo = currentPrograms[channel.name] || 'Tidak ada info program';
-    const statusEmoji = channel.isLive ? '🟢 LIVE' : '⚫ OFF';
+    const program = currentPrograms[channel.name];
+    const statusEmoji = program.isLive ? '🟢 LIVE' : '⚫ OFF';
     
     embed.addFields({
-      name: `${channel.name} - ${statusEmoji}`,
-      value: `**Program Saat Ini:** ${programInfo}\n**Deskripsi:** ${channel.description}\n**Command:** @TVRemoteBot ${channel.name}`,
+      name: `${channel.name.toUpperCase()} - ${statusEmoji}`,
+      value: `**Program Saat Ini:** ${program.title}\n**Deskripsi:** ${program.description}\n**Program Berikutnya:** ${program.nextProgram}`,
       inline: false
     });
   });
@@ -314,8 +448,8 @@ async function switchChannel(message, channel) {
     return message.reply('❌ Browser TV belum dimulai. Gunakan `!tv start` untuk memulai browser.');
   }
   
-  const currentPrograms = getCurrentPrograms();
-  const programInfo = currentPrograms[channel.name] || 'Tidak ada info program';
+  const currentPrograms = await getCurrentPrograms();
+  const program = currentPrograms[channel.name];
   
   // Status pesan awal
   const statusMsg = await message.channel.send(`⏳ Sedang beralih ke channel ${channel.name}...`);
@@ -323,20 +457,23 @@ async function switchChannel(message, channel) {
   // Eksekusi perintah di browser melalui Puppeteer
   const success = await executeInBrowser(channel.switchCommand);
   
+  // Tambahkan perintah untuk unmute volume setelah beralih channel
+  await executeInBrowser('document.querySelector("video").muted = false;'); // Pastikan untuk menyesuaikan selector jika perlu
+  
   if (success) {
     const embed = new EmbedBuilder()
-      .setTitle(`📺 Berhasil beralih ke ${channel.name}`)
-      .setDescription(`**Sedang menonton:** ${programInfo}\n**Deskripsi Channel:** ${channel.description}`)
+      .setTitle(`📺 Berhasil beralih ke ${channel.name.toUpperCase()}`)
+      .setDescription(`**Sedang menonton:** ${program.title}\n**Deskripsi:** ${program.description}\n\n**Program berikutnya:** ${program.nextProgram}`)
       .setColor('#2ecc71')
-      .setImage(channel.image)
+      .setImage(program.image)
       .setTimestamp()
       .setFooter({ 
-        text: `Dijalankan: ${channel.switchCommand}`, 
-        iconURL: 'https://i.imgur.com/AfFp7pu.png' 
+        text: `Elimchi Server`, 
+        iconURL: 'https://i.imgur.com/CVMXv6L.png'
       });
     
     await statusMsg.edit({ 
-      content: `✅ <@${message.author.id}> sekarang menonton ${channel.name}`,
+      content: `✅ <@${message.author.id}> sekarang menonton ${channel.name.toUpperCase()}`,
       embeds: [embed] 
     });
   } else {
@@ -344,99 +481,12 @@ async function switchChannel(message, channel) {
   }
 }
 
-// Express API Endpoints
-app.post('/press', async (req, res) => {
-  if (!browserStarted || !page) return res.status(500).send({ error: 'Browser not started yet!' });
-  const { word } = req.body;
-  if (!word) return res.status(400).send({ error: 'Missing word parameter' });
-  console.log(`Simulating typing: ${word}`);
-  await page.keyboard.type(word);
-  await page.keyboard.press('Enter');
-  res.send({ success: true, message: `Typed word: ${word}` });
-});
-
-app.post('/execute', async (req, res) => {
-  if (!browserStarted || !page) return res.status(500).send({ error: 'Browser not started yet!' });
-  const { command } = req.body;
-  if (!command) return res.status(400).send({ error: 'Missing command parameter' });
-  
-  try {
-    console.log(`Executing command: ${command}`);
-    await page.evaluate(command);
-    res.send({ success: true, message: `Executed: ${command}` });
-  } catch (error) {
-    res.status(500).send({ error: `Execution failed: ${error.message}` });
-  }
-});
-
-app.post('/switch', async (req, res) => {
-  if (!browserStarted || !page) return res.status(500).send({ error: 'Browser not started yet!' });
-  const { channel } = req.body;
-  if (!channel) return res.status(400).send({ error: 'Missing channel parameter' });
-  
-  const tvChannel = getChannelByName(channel);
-  if (!tvChannel) {
-    return res.status(404).send({ error: `Channel not found: ${channel}` });
-  }
-  
-  try {
-    console.log(`Switching to channel: ${tvChannel.name}`);
-    await page.evaluate(tvChannel.switchCommand);
-    res.send({ 
-      success: true, 
-      message: `Switched to ${tvChannel.name}`,
-      currentProgram: getCurrentPrograms()[tvChannel.name] || 'Unknown program'
-    });
-  } catch (error) {
-    res.status(500).send({ error: `Switch failed: ${error.message}` });
-  }
-});
-
-// Check if port is in use
-const checkPort = (port) => {
-  return new Promise((resolve) => {
-    const server = require('net').createServer();
-    
-    server.once('error', (err) => {
-      if (err.code === 'EADDRINUSE') {
-        resolve(false);
-      } else {
-        resolve(true);
-      }
-    });
-    
-    server.once('listening', () => {
-      server.close();
-      resolve(true);
-    });
-    
-    server.listen(port);
-  });
-};
-
-// Find available port starting from the configured port
-const findAvailablePort = async (startPort) => {
-  let port = startPort;
-  while (!(await checkPort(port)) && port < startPort + 100) {
-    port++;
-  }
-  return port;
-};
-
-// Start server & log in to Discord
+// Function to start the application
 async function startApp() {
   try {
-    // Find available port
-    const port = await findAvailablePort(CONFIG.PORT);
-    
-    if (port !== CONFIG.PORT) {
-      console.log(`Port ${CONFIG.PORT} is in use, using port ${port} instead.`);
-      CONFIG.PORT = port;
-    }
-    
     // Start Express server
-    app.listen(port, async () => {
-      console.log(`🚀 API listening on http://localhost:${port}`);
+    app.listen(CONFIG.PORT, async () => {
+      console.log(`🚀 API listening on http://localhost:${CONFIG.PORT}`);
       
       // Log in to Discord
       try {
